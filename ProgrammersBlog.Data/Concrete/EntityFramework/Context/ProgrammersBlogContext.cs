@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using ProgrammersBlog.Data.Concrete.EntityFramework.Mappings;
 using ProgrammersBlog.Entities.Concrete;
 
 namespace ProgrammersBlog.Data.Concrete.EntityFramework.Context
@@ -23,5 +24,13 @@ namespace ProgrammersBlog.Data.Concrete.EntityFramework.Context
 
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfiguration(new CategoryMapper());
+            modelBuilder.ApplyConfiguration(new UserMapoer());
+            modelBuilder.ApplyConfiguration(new RoleMapper());
+            modelBuilder.ApplyConfiguration(new ArticleMapper());
+            modelBuilder.ApplyConfiguration(new CommentMapper());
+        }
     }
 }
