@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ProgrammersBlog.Services.Extensions;
 
 namespace ProgrammersBlog.MVC
 {
@@ -24,6 +25,7 @@ namespace ProgrammersBlog.MVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddRazorPages();
+            services.LoadMyServices();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

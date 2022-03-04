@@ -14,8 +14,4 @@
     <ProjectReference Include="..\ProgrammersBlog.Shared\ProgrammersBlog.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="AutoMapper\Profiles\" />
-  </ItemGroup>
-
 </Project>
