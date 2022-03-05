@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using ProgrammersBlog.Entities.Concrete;
 using ProgrammersBlog.Shared.Entities.Abstract;
 
-namespace ProgrammersBlog.Entities.Dtos
+namespace ProgrammersBlog.Entities.DTOs
 {
     public class CategoryDto:DtoGetBase
     {

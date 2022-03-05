@@ -116,27 +116,39 @@ namespace ProgrammersBlog.Services.Concrete
             return new DataResult<ArticleListDto>(ResultStatus.Error, "There s no such a category", null);
         }
 
-        public async Task<IResult> Add(ArticleAddDto articleAddDto, string createdByName)
+        public async Task<IDataResult<ArticleDto>> Add(ArticleAddDto articleAddDto, string createdByName)
         {
             var article = _mapper.Map<Article>(articleAddDto);
             article.CreatedByName = createdByName;
             article.ModifiedByName = createdByName;
             article.UserId = 1;
 
-            await _unitOfWork.Articles.AddAsync(article).ContinueWith(t => _unitOfWork.SaveAsync());
+            var addedArticle = await _unitOfWork.Articles.AddAsync(article);
+            await _unitOfWork.SaveAsync();
 
-            return new Result(ResultStatus.Success, $"{article.Title} has been successfully added");
+            return new DataResult<ArticleDto>(ResultStatus.Success, $"{articleAddDto.Title} has been successfully added", new ArticleDto
+            {
+                Article = addedArticle,
+                ResultStatus = ResultStatus.Success,
+                Message = $"{articleAddDto.Title} has been successfully added"
+            });
         }
 
-        public async Task<IResult> Update(ArticleUpdateDto articleUpdatedDto, string modifiedByName)
+        public async Task<IDataResult<ArticleDto>> Update(ArticleUpdateDto articleUpdatedDto, string modifiedByName)
         {
             var article = _mapper.Map<Article>(articleUpdatedDto);
             article.ModifiedByName = modifiedByName;
 
 
-            await _unitOfWork.Articles.UpdateAsync(article).ContinueWith(t => _unitOfWork.SaveAsync());
+            var updatedArticle = await _unitOfWork.Articles.UpdateAsync(article);
+            await _unitOfWork.SaveAsync();
 
-            return new Result(ResultStatus.Success, $"{article.Title} has been successfully updated");
+            return new DataResult<ArticleDto>(ResultStatus.Success, $"{articleUpdatedDto.Title} has been successfully updated", new ArticleDto
+            {
+                Article = updatedArticle,
+                ResultStatus = ResultStatus.Success,
+                Message = $"{articleUpdatedDto.Title} has been successfully updated"
+            });
         }
 
         public async Task<IResult> Delete(int articleId, string modifiedByName)
@@ -150,7 +162,8 @@ namespace ProgrammersBlog.Services.Concrete
                 article.IsDeleted = true;
                 article.ModifiedDate = DateTime.Now;
                 article.ModifiedByName = modifiedByName;
-                await _unitOfWork.Articles.UpdateAsync(article).ContinueWith(t => _unitOfWork.SaveAsync());
+                await _unitOfWork.Articles.UpdateAsync(article);
+                await _unitOfWork.SaveAsync();
 
                 return new Result(ResultStatus.Success, "Article  has been deleted");
 
@@ -167,7 +180,8 @@ namespace ProgrammersBlog.Services.Concrete
             {
                 var article = await _unitOfWork.Articles.GetAsync(a => a.Id == articleId);
 
-                await _unitOfWork.Articles.DeleteAsync(article).ContinueWith(t => _unitOfWork.SaveAsync());
+                await _unitOfWork.Articles.DeleteAsync(article);
+                await _unitOfWork.SaveAsync();
                 return new Result(ResultStatus.Success, "Article  has been deleted from database");
             }
 

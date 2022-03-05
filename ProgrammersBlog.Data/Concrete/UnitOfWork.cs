@@ -24,14 +24,9 @@ namespace ProgrammersBlog.Data.Concrete
         public ICommentDal Comments => _commentDal ?? new EfCommentDal(_context);
         public ICategoryDal Categories => _categoryDal ?? new EfCategoryDal(_context);
 
-        public UnitOfWork(ProgrammersBlogContext context, EfRoleDal roleDal, EfCommentDal commentDal, EfUserDal userDal, EfCategoryDal categoryDal, EfArticleDal articleDal)
+        public UnitOfWork(ProgrammersBlogContext context)
         {
             _context = context;
-            _roleDal = roleDal;
-            _commentDal = commentDal;
-            _userDal = userDal;
-            _categoryDal = categoryDal;
-            _articleDal = articleDal;
         }
 
 
